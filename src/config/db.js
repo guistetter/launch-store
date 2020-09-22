@@ -5,5 +5,5 @@ module.exports = new Pool({
   password: process.env.POSTGRESS_PASS,
   host: "localhost",
   port: "5432",
-  database: "launchstoredb"
+  database: "launchstoreDb"
 })
