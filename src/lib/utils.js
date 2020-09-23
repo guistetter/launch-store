@@ -18,5 +18,11 @@ module.exports = {
     const month = date.getUTCMonth() + 1
     const day = date.getUTCDate()
     console.log(`${year}-${month}-${day}`)
+  },
+  formatPrice(price){
+    return new Intl.NumberFormat('pt-BR', {
+      style: "currency",
+      currency: "BRL"
+    }).format(price/100)
   }
 }
