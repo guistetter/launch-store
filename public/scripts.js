@@ -14,6 +14,7 @@ const Mask = {
 }
 
 const PhotosUpload = {
+  //validando limit fotos
   uploadLimit: 6,
   handleFileInput(event){
     const {files: fileList } = event.target
@@ -23,11 +24,17 @@ const PhotosUpload = {
       event.preventDefault()
       return
     }
+    //fazendo o preview de photos
     Array.from(fileList).forEach(file => {
       const reader = new FileReader()
       reader.onload = () => {
         const image = new Image()
         image.src = String(reader.result)
+        const div = document.createElement('div')
+        div.classList.add('photo')
+        div.onclick = () =>  alert('cliquei')
+        div.appendChild(image)
+        document.querySelector('#photos-preview').appendChild(div)
       }
       reader.readAsDataURL(file)
     })
