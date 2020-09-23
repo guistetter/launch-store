@@ -14,15 +14,18 @@ module.exports = {
       ) values ($1, $2, $3, $4, $5, $6, $7, $8)
       returning id
     `
+    //R$ 1,00
+    data.price =  data.price.replace(/\D/g,"")
+    //100 devo dividir por 100 depois...
     const values = [
       data.category_id,
-      1,
+      data.user_id || 1,
       data.name,
       data.description,
-      data.old_price,
+      data.old_price || data.price,
       data.price,
       data.quantity,
-      data.status
+      data.status || 1
     ] 
     return db.query(query, values)
   },
