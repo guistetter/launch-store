@@ -31,5 +31,31 @@ module.exports = {
   },
   find(id){
     return db.query(`select * from products where id = $1`,[id])
+  },
+  update(data){
+    const query = `
+    update products set 
+    category_id=($1),
+    user_id=($2),
+    name=($3),
+    description=($4),
+    old_price=($5),
+    price=($6),
+    quantity=($7),
+    status=($8)
+    where id=($9)
+    `
+    const values = [
+      data.category_id,
+      data.user_id,
+      data.name,
+      data.description,
+      data.old_price,
+      data.price,
+      data.quantity,
+      data.satus,
+      data.id
+    ]
+    return db.query(query, values)
   }
 }
