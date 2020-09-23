@@ -53,7 +53,7 @@ module.exports = {
       data.old_price,
       data.price,
       data.quantity,
-      data.satus,
+      data.status,
       data.id
     ]
     return db.query(query, values)
