@@ -13,6 +13,26 @@ const Mask = {
   }
 }
 
+const PhotosUpload = {
+  uploadLimit: 6,
+  handleFileInput(event){
+    const {files: fileList } = event.target
+    const {uploadLimit} = PhotosUpload
+    if(fileList.length > uploadLimit){
+      alert(`Envie no máximo ${uploadLimit} fotos`)
+      event.preventDefault()
+      return
+    }
+    Array.from(fileList).forEach(file => {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const image = new Image()
+        image.src = String(reader.result)
+      }
+      reader.readAsDataURL(file)
+    })
+  }
+}
 
 /*
 const input = document.querySelector('input[name="price"]')
