@@ -57,5 +57,9 @@ module.exports = {
       data.id
     ]
     return db.query(query, values)
+  },
+  files(id){
+    return db.query(`
+    select * from file where product_id = $1`,[id])
   }
 }
