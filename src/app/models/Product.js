@@ -60,6 +60,6 @@ module.exports = {
   },
   files(id){
     return db.query(`
-    select * from file where product_id = $1`,[id])
+    select * from files where product_id = $1`,[id])
   }
 }

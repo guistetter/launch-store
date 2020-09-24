@@ -54,8 +54,8 @@ module.exports = {
     results = await Product.files(product.id)
     let files = results.rows
     files = files.map(file => ({
-      ...files,
-      src: `${req.protocol}://${req.headers.host}${file.path.replace("publi","")}`
+      ...file,
+      src: `${req.protocol}://${req.headers.host}${file.path.replace("public","")}`
     }))
 
     return res.render("products/edit.njk", {product, categories, files})
