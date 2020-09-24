@@ -4,9 +4,8 @@ module.exports = {
     const query = `
       insert into files (
         name,
-        path
-        product_id,
-        name
+        path,
+        product_id
         ) values ($1, $2, $3)
       returning id
     `
