@@ -46,10 +46,19 @@ module.exports = {
     product.price = formatPrice(product.price)
     product.old_price = formatPrice(product.old_price)
 
+    //get categories
     results = await Category.all()
     const categories = results.rows
 
-    return res.render("products/edit.njk", {product, categories})
+    //get images
+    results = await Product.files(product.id)
+    let files = results.rows
+    files = files.map(file => ({
+      ...files,
+      src: `${req.protocol}://${req.headers.host}${file.path.replace("publi","")}`
+    }))
+
+    return res.render("products/edit.njk", {product, categories, files})
   },
   async put(req,res){
     const keys = Object.keys(req.body)
