@@ -16,6 +16,7 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
+    "debug":"nodemon --inspect=0.0.0.0:9229 src/index.js",
     "start": "npm-run-all -p nodemon browsersync",
     "nodemon": "nodemon src/index.js",
     "browsersync": "browser-sync start --proxy http://localhost:3000 --files 'public,src,views'",
