@@ -6,23 +6,31 @@
     <img src="http://placehold.it/500x500?text=Produto Sem Foto" alt="">
   </div>
   <div class="info">
-    <h1>Computador</h1>
+    <h1>{{product.name}}</h1>
     <div class="published">
-      Publicado em 10/10/2020
+      Publicado em {{product.published.day}} às {{product.published.hour}}
     </div>
     <div class="description">
-      asdasdasdsa
+      {{product.description}}
     </div>
     <div class="price-buy">
       <div class="price">
-        R$ 99,00
+        {{product.price}}
+        {% if product.price !== product.old_price %}
         <span class="old">
-          R$ 89,00
+          {{product.old_price}}
         </span>
+        {% endif %}
       </div>
     
       <div class="buy">
+        {%if product.status == 0 %}
+        <p class="unavailable">Indisponivel</p>
+        {% elseif product.quantity == 0 %}
+        <p class="unavailable">Fora de Estoque</p>
+        {% else %}
         <button class="button">Comprar</button>
+        {% endif %}
       </div>
     </div>
 
