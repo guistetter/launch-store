@@ -111,6 +111,6 @@ module.exports = {
     }
 
     await Product.update(req.body)
-    return res.redirect(`/products/${req.body.id}/edit`)
+    return res.redirect(`/products/${req.body.id}`)
   }
 }
