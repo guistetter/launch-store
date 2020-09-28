@@ -32,12 +32,19 @@ module.exports = {
         return product
       })
       const products = await Promise.all(productsPromise)
+
       const search = {
         term: req.query.filter,
         total: products.length
       }
 
-      return res.render("search/index", {products})
+      const categories = products.map(product => ({
+        id: product.category_id,
+        name: product.category_name
+      }))
+      
+
+      return res.render("search/index", {products, search, categories})
     }
     catch(err){
       console.log(err)
