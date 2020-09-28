@@ -65,5 +65,32 @@ module.exports = {
   files(id){
     return db.query(`
     select * from files where product_id = $1`,[id])
+  },
+  search(params){
+    const { filter, category } = params
+
+    let query = "",
+    filterQuery = `where`
+
+    if(category){
+      filterQuery = `${filterQuery}
+      products.category_id = ${category_id}
+      and`
+    }
+
+    filterQuery = `
+      ${filterQuery}
+      products.name ilike '%${filter}%'
+      or products.description ilike '%${filter}%'
+    `
+    query = `
+    select products.*,
+      categories.name as category_name
+    from products
+    left join categories on (categories.id = products.category_id)
+    ${filterQuery}
+    group by categories.name
+    `
+    return db.query(query)
   }
 }
