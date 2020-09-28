@@ -31,6 +31,7 @@ module.exports = {
         product.oldPrice = formatPrice(product.old_price)
         return product
       })
+      
       const products = await Promise.all(productsPromise)
 
       const search = {
@@ -41,7 +42,15 @@ module.exports = {
       const categories = products.map(product => ({
         id: product.category_id,
         name: product.category_name
-      }))
+      })).reduce((categoriesFiltered, category) => {
+
+        const found = categoriesFiltered.some(cate => cate.id == category.id)
+        
+        if(!found)
+        categoriesFiltered.push(category)
+
+        return categoriesFiltered
+      }, [])
       
 
       return res.render("search/index", {products, search, categories})
