@@ -1,23 +1,24 @@
 {% extends "layout.njk" %}
+{% import "parts/section-products.njk" as section %}
 {% block content %}
-<section class="shop container">
-  <h2>Últimos produtos</h2>
-  <div class="items">
-    {%for product in products%}
-      <div class="product">
-        <div class="image"
-         style="background-image: url({{product.img if product.img else '//placehold.it/500x500'}})"
-         >  
-        </div>
+<section class="search-products container">
 
-        {% if product.oldPrice != product.price %}
-          <div class="old-price">{{product.oldPrice}}</div>
-        {% endif %}
-        <p>{{product.price}}</p>
-        <h4>{{product.name}}</h4>
-        <a href="/products/{{product.id}}" class="button">Ver Produto</a>
-      </div>
-    {% endfor %}
-  </div>
+  <aside>
+    <div class="header">
+      <h2>Computador</h2>
+      <p>12 encontrados</p>
+    </div>
+    
+    <nav class="categories">
+      <h4>Categorias</h4>
+      <ul>
+        <li><a href="#">Eletronicos</a></li>
+        <li><a href="#">Comida</a></li>
+        <li><a href="#">Esporte</a></li>
+      </ul>
+    </nav>
+
+  </aside>
+  {{section.products('', 'searched', products)}}
 </section>
 {% endblock content %}
