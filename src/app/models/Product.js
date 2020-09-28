@@ -74,7 +74,7 @@ module.exports = {
 
     if(category){
       filterQuery = `${filterQuery}
-      products.category_id = ${category_id}
+      products.category_id = ${category}
       and`
     }
 
@@ -89,7 +89,7 @@ module.exports = {
     from products
     left join categories on (categories.id = products.category_id)
     ${filterQuery}
-    group by categories.name
+    group by categories.name, products.id
     `
     return db.query(query)
   }
