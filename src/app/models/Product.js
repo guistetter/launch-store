@@ -1,5 +1,9 @@
 const db = require("../../config/db")
 module.exports = {
+  all(){
+    return db.query(`
+    select * from products order by updated_at desc`)
+  },
   create(data){
     const query = `
       insert into products (
