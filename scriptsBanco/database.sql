@@ -37,7 +37,7 @@ CREATE TABLE "users" (
   "name" text not null,
   "email" int unique not null,
   "password" text NOT NULL,
-  "cpf_cnpj" int unique NOT NULL,
+  "cpf_cnpj" text unique NOT NULL,
   "cep" text,
   "address" text,
   "created_at" timestamp DEFAULT 'now()',
