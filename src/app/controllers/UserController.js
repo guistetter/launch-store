@@ -15,8 +15,8 @@ module.exports = {
     }
 
     //check if user exists[emai, cpf_cnpj]
-    const { email, cpf_cnpj, password, passwordRepeat } = req.body;
-    console.log(email);
+    let { email, cpf_cnpj, password, passwordRepeat } = req.body;
+    cpf_cnpj = cpf_cnpj.replace(/\D/g, "");
 
     const user = await User.findOne({
       where: { email },
