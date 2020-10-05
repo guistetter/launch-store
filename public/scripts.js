@@ -5,14 +5,14 @@ const Mask = {
     }, 1);
   },
   formatBRL(value) {
-    value = value.replace(/\D/g, ""); //limpa campo
+    value = value.replace(/\D/g, ""); //limpa campo deixando apenas numeros
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
       currency: "BRL",
     }).format(value / 100);
   },
   cpfCnpj(value) {
-    value = value.replace(/\D/g, ""); //limpa campo
+    value = value.replace(/\D/g, ""); //limpa campo deixando apenas numeros
 
     if (value.length > 14) value = value.slice(0, -1);
 
@@ -32,6 +32,12 @@ const Mask = {
       value = value.replace(/(\d{3})(\d)/, "$1.$2");
       value = value.replace(/(\d{3})(\d)/, "$1-$2");
     }
+    return value;
+  },
+  cep(value) {
+    value = value.replace(/\D/g, ""); //limpa campo deixando apenas numeros
+    if (value.length > 14) value = value.slice(0, -1);
+    value = value.replace(/(\d{5})(\d)/, "$1-$2");
     return value;
   },
 };
