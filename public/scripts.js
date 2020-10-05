@@ -36,8 +36,9 @@ const Mask = {
   },
   cep(value) {
     value = value.replace(/\D/g, ""); //limpa campo deixando apenas numeros
-    if (value.length > 14) value = value.slice(0, -1);
+    if (value.length > 8) value = value.slice(0, -1);
     value = value.replace(/(\d{5})(\d)/, "$1-$2");
+
     return value;
   },
 };
@@ -197,66 +198,35 @@ const Validate = {
     let error = null;
     const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-    if (!value.match(mailFormat)) error = "Email invalido";
+    if (!value.match(mailFormat)) error = "Digite um email valido.";
 
     return { error, value };
   },
-};
-
-/*
-
-const Validate = {
-  apply(input, func) {
-    Validate.clearErrors(input);
-
-    let results = Validate[func](input.value);
-    input.value = results.value;
-
-    if (results.error) Validate.displayError(input, results.error);
-  },
-
-  displayError(input, error) {
-    const div = document.createElement("div");
-    div.classList.add("error");
-    div.innerHtml = error;
-    input.parentNode.appendChild(div);
-  },
-
-  clearErrors(input) {
-    const errorDiv = input.parentNode.querySelector(".error");
-    if (errorDiv) errorDiv.remove();
-  },
-
-  isEmail(value) {
+  isCpfCnpj(value) {
     let error = null;
+    const cleanValues = value.replace(/\D/g, "");
+    if (cleanValues.length > 11 && cleanValues.length !== 14) {
+      error = "CNPJ incorreto";
+    } else if (cleanValues.length < 12 && cleanValues.length !== 11) {
+      error = "CPF incorreto";
+    }
 
-    //abc-ddffd@abc-acs //acas.@asc-asd //asas@ascasc.com
-    const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.w{2,3})+$/;
+    return {
+      error,
+      value,
+    };
+  },
+  isCep(value) {
+    let error = null;
+    const cleanValues = value.replace(/\D/g, "");
 
-    if (!value.match(mailFormat))
-      error = "Digite um email valido para continuar";
+    if (cleanValues.length !== 8) {
+      error = "CEP incorreto";
+    }
 
-    return { error, value };
+    return {
+      error,
+      value,
+    };
   },
 };
-
-*/
-
-/*
-const input = document.querySelector('input[name="price"]')
-input.addEventListener("keydown", function(e){
-  setTimeout(function(){
-    let {value} = e.target
-    value = value.replace(/\D/g,"")
-    console.log(value)
-    value = new Intl.NumberFormat('pt-BR', {
-      style: "currency",//1.000,00
-      currency: "BRL"
-    }).format(value/100)
-    e.target.value = value 
-  },1)
-  //e.target
-  //e
-})
-
-*/
