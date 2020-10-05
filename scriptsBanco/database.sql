@@ -35,7 +35,7 @@ ALTER TABLE "files" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
 CREATE TABLE "users" (
   "id" SERIAL PRIMARY KEY,
   "name" text not null,
-  "email" int unique not null,
+  "email" text unique not null,
   "password" text NOT NULL,
   "cpf_cnpj" text unique NOT NULL,
   "cep" text,
