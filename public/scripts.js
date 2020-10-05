@@ -172,6 +172,76 @@ const Lightbox = {
     Lightbox.closeButton.style.top = "-80px";
   },
 };
+
+const Validate = {
+  apply(input, func) {
+    Validate.clearErrors(input);
+
+    let results = Validate[func](input.value);
+    input.value = results.value;
+
+    if (results.error) Validate.displayError(input, results.error);
+  },
+  displayError(input, error) {
+    const div = document.createElement("div");
+    div.classList.add("error");
+    div.innerHTML = error;
+    input.parentNode.appendChild(div);
+    input.focus();
+  },
+  clearErrors(input) {
+    const errorDiv = input.parentNode.querySelector(".error");
+    if (errorDiv) errorDiv.remove();
+  },
+  isEmail(value) {
+    let error = null;
+    const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (!value.match(mailFormat)) error = "Email invalido";
+
+    return { error, value };
+  },
+};
+
+/*
+
+const Validate = {
+  apply(input, func) {
+    Validate.clearErrors(input);
+
+    let results = Validate[func](input.value);
+    input.value = results.value;
+
+    if (results.error) Validate.displayError(input, results.error);
+  },
+
+  displayError(input, error) {
+    const div = document.createElement("div");
+    div.classList.add("error");
+    div.innerHtml = error;
+    input.parentNode.appendChild(div);
+  },
+
+  clearErrors(input) {
+    const errorDiv = input.parentNode.querySelector(".error");
+    if (errorDiv) errorDiv.remove();
+  },
+
+  isEmail(value) {
+    let error = null;
+
+    //abc-ddffd@abc-acs //acas.@asc-asd //asas@ascasc.com
+    const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.w{2,3})+$/;
+
+    if (!value.match(mailFormat))
+      error = "Digite um email valido para continuar";
+
+    return { error, value };
+  },
+};
+
+*/
+
 /*
 const input = document.querySelector('input[name="price"]')
 input.addEventListener("keydown", function(e){
