@@ -8,7 +8,14 @@ module.exports = {
     return res.send("Ok, cadastrado");
   },
   async post(req, res) {
-    const userId = await User.create(req.body);
-    return res.redirect("/users");
+    try {
+      const userId = await User.create(req.body);
+
+      req.session.userId = userId;
+
+      return res.redirect("/users");
+    } catch (err) {
+      return console.log(err);
+    }
   },
 };
