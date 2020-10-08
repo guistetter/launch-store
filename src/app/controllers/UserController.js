@@ -9,7 +9,7 @@ module.exports = {
   },
   async show(req, res) {
     const {user} = req
-    
+
     user.cpf_cnpj = formatCpfCnpj(user.cpf_cnpj);
     user.cep = formatCep(user.cep);
 
@@ -27,6 +27,28 @@ module.exports = {
     }
   },
   async update(req,res){
-    return ''
+    try {
+      let { name, email, cpf_cnpj, cep, address, } = req.body
+
+      cpf_cnpj = cpf_cnpj.replace(/\D/,g,"")
+      cep = cep.replace(/\D/,g,"")
+
+      await User.update(user.id, {
+        name, 
+        email,
+        cpf_cnpj,
+        cep, 
+        address 
+      })
+
+      return res.render("user/index",{
+        success: "Conta atualizada com sucesso"
+      })
+    } catch (error) {
+      console.error(err)
+      return res.render("user/index",{
+        error: "Algum erro aconteceu!"
+      })
+    }
   }
 };
