@@ -1,5 +1,6 @@
 const db = require("../../config/db");
 const { hash } = require("bcryptjs");
+const { updateLocale } = require("moment");
 
 module.exports = {
   async findOne(filters) {
@@ -57,4 +58,23 @@ module.exports = {
       return console.log(err);
     }
   },
+  
+  async update(id,fields){
+    let query = "update users set"
+
+    Object.keys(fields).map((key, index, array) => {
+      if((index + 1)< array.length){
+        query = `${query}
+                ${key} = '${fields[key]}',
+                `
+      } else {
+        query = `${query}
+        ${key} = '${fields[key]}'
+        where id = ${id}
+        `
+      }
+    })
+    await db.query(query)
+    return 
+  }
 };
