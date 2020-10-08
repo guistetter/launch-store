@@ -1,5 +1,19 @@
 const User = require("../models/User");
 
+function checkAllFields(body){
+  //check if has all fields
+  const keys = Object.keys(body);
+
+  for (key of keys) {
+    if (req.body[key] == "") {
+      return {
+        user: body,
+        error: "Por favor, preencha todos os campos"
+      };
+    }
+  }
+}
+
 async function show(re,res, next){
   const { userId: id } = req.session;
   const user = await User.findOne({ where: { id } });
@@ -11,17 +25,13 @@ async function show(re,res, next){
   req.user = user
   next()
 }
-async function post(req, res, next) {
-  //check if has all fields
-  const keys = Object.keys(req.body);
 
-  for (key of keys) {
-    if (req.body[key] == "") {
-      return res.render("user/register", {
-        user: req.body,
-        error: "Por favor, preencha todos os campos",
-      });
-    }
+
+async function post(req, res, next) {
+  //check if has all fields 
+  const fillAllFields = checkAllFields(req.body)
+  if(fillAllFields){
+    return res.render('user/register', fillAllFields)
   }
 
   //check if user exists[emai, cpf_cnpj]
@@ -46,6 +56,24 @@ async function post(req, res, next) {
       error: "As senhas não batem.",
     });
   next();
+}
+
+async function update(req,res,next){
+   //check if has all fields 
+  const fillAllFields = checkAllFields(req.body)
+  if(fillAllFields){
+    return res.render('user/index', fillAllFields)
+  }
+
+  const { id, password } = req.body
+
+  if(!password) return res.render("user/index",{
+    user: req.body,
+    error: 'Coloque sua senha para atualizar seu cadastro'
+  })
+  
+  const user = await User.findOne({where: {id}})
+  
 }
 
 module.exports = {
