@@ -2,20 +2,24 @@ const User = require("../models/User");
 const {compare} = require('bcryptjs')
 
 function checkAllFields(body){
-  //check if has all fields
-  const keys = Object.keys(body);
+ try {
+    //check if has all fields
+    const keys = Object.keys(body);
 
-  for (key of keys) {
-    if (req.body[key] == "") {
-      return {
-        user: body,
-        error: "Por favor, preencha todos os campos"
-      };
+    for (key of keys) {
+      if (body[key] == "") {
+        return {
+          user: body,
+          error: "Por favor, preencha todos os campos"
+        };
+      }
     }
+  } catch (error) {
+    console.log(error, 'error validator check all fields ')
   }
 }
 
-async function show(re,res, next){
+async function show(req,res, next){
   const { userId: id } = req.session;
   const user = await User.findOne({ where: { id } });
 
@@ -29,7 +33,8 @@ async function show(re,res, next){
 
 
 async function post(req, res, next) {
-  //check if has all fields 
+  try {
+    //check if has all fields 
   const fillAllFields = checkAllFields(req.body)
   if(fillAllFields){
     return res.render('user/register', fillAllFields)
@@ -57,10 +62,14 @@ async function post(req, res, next) {
       error: "As senhas não batem.",
     });
   next();
+  } catch (error) {
+    console.log(error, "validator post error")
+  }
 }
 
 async function update(req,res,next){
-   //check if has all fields 
+  try {
+     //check if has all fields 
   const fillAllFields = checkAllFields(req.body)
   if(fillAllFields){
     return res.render('user/index', fillAllFields)
@@ -84,9 +93,13 @@ async function update(req,res,next){
 
   req.user = user
   next()
+  } catch (error) {
+    console.log(error,'validator error')
+  }
 }
 
 module.exports = {
   post,
-  show
+  show, 
+  update
 };

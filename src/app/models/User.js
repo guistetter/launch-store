@@ -60,7 +60,8 @@ module.exports = {
   },
   
   async update(id,fields){
-    let query = "update users set"
+    try {
+      let query = "update users set"
 
     Object.keys(fields).map((key, index, array) => {
       if((index + 1)< array.length){
@@ -76,5 +77,8 @@ module.exports = {
     })
     await db.query(query)
     return 
+    } catch (error) {
+      console.log(error, 'update error')
+    }
   }
 };
