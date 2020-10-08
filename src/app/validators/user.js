@@ -1,5 +1,16 @@
 const User = require("../models/User");
 
+async function show(re,res, next){
+  const { userId: id } = req.session;
+  const user = await User.findOne({ where: { id } });
+
+  if (!user)
+  return res.render("user/index", {
+    error: "Usuario não encontrado",
+  });
+  req.user = user
+  next()
+}
 async function post(req, res, next) {
   //check if has all fields
   const keys = Object.keys(req.body);
@@ -39,4 +50,5 @@ async function post(req, res, next) {
 
 module.exports = {
   post,
+  show
 };
