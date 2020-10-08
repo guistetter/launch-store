@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const {compare} = require('bcryptjs')
 
 function checkAllFields(body){
   //check if has all fields
@@ -74,6 +75,15 @@ async function update(req,res,next){
   
   const user = await User.findOne({where: {id}})
   
+  //verificar senha
+  const passed = await compare(password, user.password)
+  if(!passed) return res.render("user/index",{
+    user: req.body, 
+    error: "senha incorreta"
+  })
+
+  req.user = user
+  next()
 }
 
 module.exports = {
