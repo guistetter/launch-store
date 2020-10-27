@@ -30,7 +30,12 @@ module.exports = {
   //   return res.render("home/index",{products: lastAdded})
   // },
   loginForm(req,res){
-    return res.render("session/index")
+    return res.render("session/login")
+  },
+  login(req,res){
+    //check user exists in database, check password match, post user in req.session
+    req.session.userId = req.user.id
+    return res.redirect("/users")
   },
   logout(req,res){
     req.session.destroy()
