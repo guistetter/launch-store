@@ -28,5 +28,9 @@ module.exports = {
 
     const lastAdded = await Promise.all(productsPromise)
     return res.render("home/index",{products: lastAdded})
+  },
+  logout(req,res){
+    req.session.destroy()
+    return res.redirect("/")
   }
 }
