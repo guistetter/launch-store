@@ -8,6 +8,13 @@ const PORT = process.env.PORT || 3000;
 const server = express();
 
 server.use(session);
+
+//create var global to validate user anywhere
+server.use((req,res,next) => {
+  res.locals.session = req.session
+  next()
+})
+
 server.use(methodOverride("_method"));
 server.use(express.urlencoded({ extended: true }));
 server.use(routes);
