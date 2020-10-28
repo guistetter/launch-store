@@ -76,6 +76,12 @@ CREATE TABLE "session" (
 WITH (OIDS=FALSE);
 
 ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+
+-- Adicionar campos para a funcionalidade forgot password
+alter table "users" add column reset_token text;
+alter table "users" add column reset_token_expires text;
+
 /*
 CREATE TABLE "products" (
   "id" SERIAL PRIMARY KEY,
