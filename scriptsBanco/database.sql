@@ -82,6 +82,21 @@ ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFE
 alter table "users" add column reset_token text;
 alter table "users" add column reset_token_expires text;
 
+
+-- deletar produtos e arquivos quando usuario for deletado 
+alter table "products" 
+drop constraint products_user_id_fkey,
+add constraint products_user_id_fkey
+foreign key ("user_id")
+references "users"("id")
+on delete cascade;
+
+alter table "files"
+drop constraint files_product_id_fkey,
+add constraint files_product_id_fkey
+foreign key ("product_id")
+references "products"("id")
+on delete cascade;
 /*
 CREATE TABLE "products" (
   "id" SERIAL PRIMARY KEY,
