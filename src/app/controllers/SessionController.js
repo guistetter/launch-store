@@ -1,7 +1,8 @@
 const crypto = require('crypto')
+const {hash} = require('bcryptjs')
 const User = require('../models/User')
 const mailer = require('../../lib/mailer')
-const {hash} = require("bcryptjs")
+
 module.exports = {
  
   loginForm(req,res){
@@ -74,7 +75,7 @@ module.exports = {
         success: "Senha atualizada! Faça o seu login"
       })
     } catch (error) {
-      return res.render("session/forgot-password",{
+      return res.render("session/password-reset",{
         user: req.body,
         token,
         error: "Erro inesperado, tente novamente!"

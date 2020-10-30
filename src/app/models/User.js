@@ -1,7 +1,8 @@
 const db = require("../../config/db");
 const { hash } = require("bcryptjs");
 const { updateLocale } = require("moment");
-
+const Product = require('../models/Product')
+const fs = require('fs')
 module.exports = {
   async findOne(filters) {
     try {
@@ -80,5 +81,26 @@ module.exports = {
     } catch (error) {
       console.log(error, 'update error')
     }
+  },
+  async delete(id){
+    let results = await db.query("select * from products where user_id = $1",[id])
+    const products = results.rows 
+
+    const allFilesPromise = products.map(product =>
+    Product.files(product.id))
+
+    let promiseResults = await Promise.all(allFilesPromise)
+    
+    await db.query('delete from users where id = $1', [id])
+
+    promiseResults.map(results => {
+      results.rows.map(file => {
+        try {
+          fs.unlinkSync(file.path)
+        } catch (error) {
+          console.error(error)
+        }
+      })
+    })
   }
 };
